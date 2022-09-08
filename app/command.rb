@@ -83,8 +83,8 @@ class Command
   end
 
   def self.execute(command)
-    x = COMMAND_MAP.select { |k| command.include?(k) }.values[0]
-    x.call(command)
+    command_method = COMMAND_MAP.select { |k| command.include?(k) }.values[0]
+    command_method.call(command)
   rescue *COMMON_EXCEPTIONS => e
     e.message
   end

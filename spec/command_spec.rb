@@ -114,7 +114,7 @@ describe Command do
 
       context 'given correct arguments' do
         let(:args) { 'remove 1 1' }
-        it 'retrieves all coordinates' do
+        it 'removes crate in given location' do
           Command.store('store 1 1 3 4 a')
           expect(Command.warehouse).to receive(:delete_crate)
           expect { command }.not_to raise_error
