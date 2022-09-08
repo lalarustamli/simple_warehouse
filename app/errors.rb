@@ -19,6 +19,12 @@ module Errors
     end
   end
 
+  class CrateAlreadyExistsError < StandardError
+    def message
+      puts('Crate with given code already exists. Please choose another code')
+    end
+  end
+
   class ArgumentError < StandardError
     def message
       puts('Coordinates should we higher than 0')

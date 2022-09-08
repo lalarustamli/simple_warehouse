@@ -24,6 +24,7 @@ class Command
     matchdata = validate_input(command, Regex::STORE)
     x, y, width, height = matchdata[1..4].to_a.map(&:to_i)
     product_code = matchdata[:pcode]
+    check_crate_is_duplicate(product_code)
     new_crate = Crate.new(x, y, width, height, product_code)
     @warehouse.store_and_update(new_crate)
   end
@@ -77,6 +78,10 @@ class Command
     raise Errors::NoCrateError if @warehouse.directory[product_code].nil?
   end
 
+  def self.check_crate_is_duplicate(product_code)
+    raise Errors::CrateAlreadyExistsError if @warehouse.directory[product_code]
+  end
+
   def self.execute(command)
     x = COMMAND_MAP.select { |k| command.include?(k) }.values[0]
     x.call(command)
@@ -105,6 +110,7 @@ class Command
     Errors::NoWarehouseError,
     Errors::NoCrateError,
     Errors::ArgumentError,
-    Errors::CapacityError
+    Errors::CapacityError,
+    Errors::CrateAlreadyExistsError
   ].freeze
 end
